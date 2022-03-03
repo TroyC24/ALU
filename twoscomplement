@@ -1,0 +1,13 @@
+module twoscomplement (D,F,S);
+	input [31:0]D;
+	input S;
+	output reg [31:0]F;
+	
+	always @(S,D)
+	begin
+		if(S)
+			F[31:0] = ~D[31:0] + 1'b1;
+		else
+			F = D;
+	end
+endmodule
