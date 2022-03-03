@@ -1,0 +1,8 @@
+module shifter (a,b,l,r);
+	input [31:0] a,b;
+	output [31:0] l,r;
+	
+	assign l = a <<< b;
+	assign r = a >>> b;
+
+endmodule
