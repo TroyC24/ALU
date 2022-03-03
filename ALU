@@ -1,0 +1,27 @@
+module ALU (A,B,Cin,opcode,sub,F,Cout,Z,N,M);
+	input [31:0] A,B;
+	input [2:0] opcode;
+	input sub;
+	input Cin;
+	output [31:0] F;
+	output Cout,Z,N,M;
+	
+	wire [31:0] W;
+	wire [31:0] ADD,XOR,AND,OR,NOR,LS,RS;
+	
+	twoscomplement inst2 (B,W,sub);
+	adder32bit inst3 (A,W,Cin,ADD,Cout);
+	
+	assign XOR = A^B;
+	assign AND = A&B;
+	assign OR = A|B;
+	assign NOR = ~OR;
+	
+	shifter inst5 (A,B,LS,RS);
+	
+	mux inst6 (opcode, F, ADD, XOR, AND, OR, NOR, LS, RS, 32'b0);
+	
+	assign N = ADD[31];
+	assign M = (A[31]&B[31]&~ADD[31])|(~A[31]&~B[31]&ADD[31]);
+	assign Z = (ADD==32'b0)? 1'b1:1'b0;
+endmodule
